@@ -12,7 +12,7 @@ This Tablut DQN model was developed by @chrifio01 @alessandrocapialbi @mpreda01 
 Clone the repository and navigate to the project root directory.
 
 ```sh
-git clone git@github.com:chrifio01/tablut_UniBOt.git
+git clone git@github.com:mpreda01/Tablut-AI-agent.git
 cd tablut_UniBOt
 ```
 
