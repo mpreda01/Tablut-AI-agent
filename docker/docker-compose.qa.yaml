@@ -1,0 +1,52 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: tablut_server
+    ports:
+      - "5800:5800"  # white port
+      - "5801:5801" # black port
+    entrypoint: ant server
+    restart: on-failure
+    networks:
+      tablut_network:
+        ipv4_address: ${SERVER_IP}
+
+  opponent:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile.client
+    # image: rl-client
+    # container_name: tablut_client
+    # depends_on:
+    #   - server  # Ensure server starts before client
+    # command: python main.py
+    ports:
+      - "5804:5800"  # white port
+      - "5805:5801" # black port
+    networks:
+      - tablut_network
+
+  our_player:
+    user: root
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.client
+    image: rl-client
+    container_name: tablut_client
+    depends_on:
+      - server  # Ensure server starts before client
+    ports:
+      - "5802:5800"  # white port
+      - "5803:5801" # black port
+    entrypoint: ./runmyplayer.sh $PLAYER_COLOR $TIMEOUT $SERVER_IP
+    networks:
+      - tablut_network
+
+networks:
+  tablut_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET_MASK}

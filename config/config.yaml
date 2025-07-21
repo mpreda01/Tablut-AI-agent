@@ -1,0 +1,23 @@
+version: "1.0.0"
+
+model:
+  dqn:
+    shape: [1024, 512, 512, 256]
+    activation: relu              # Activation function (e.g., relu, tanh)
+
+env:
+  observation_spec:
+    shape: [325,]                    # Shape of observation
+  action_spec:
+    shape: [400, ]                    # Shape of action
+  max_episode_steps: 1000         # Maximum steps in an episode
+
+replay_buffer:
+  capacity: 1000000
+  sample_batch_size: 64
+  min_size: 1000
+
+training:
+  log_interval: 200
+  eval_interval: 1000
+  checkpoint_dir: ../training/checkpoints/
